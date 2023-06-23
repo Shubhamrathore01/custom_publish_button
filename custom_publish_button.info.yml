@@ -1,0 +1,7 @@
+name: 'Custom Publish Button'
+type: module
+description: 'Adds a "Publish" button on a webform submission page to convert submission to node.'
+core_version_requirement: ^8 || ^9 || ^10
+package: Custom
+dependencies:
+  - webform:webform

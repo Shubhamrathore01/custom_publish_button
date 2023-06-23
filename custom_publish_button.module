@@ -1,0 +1,40 @@
+<?php
+
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Url;
+use Drupal\webform\Entity\WebformSubmission;
+use Drupal\webform\WebformSubmissionInterface;
+
+/**
+ * Implements hook_help().
+ */
+function custom_publish_button_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    case 'help.page.custom_publish_button':
+      return '<p>' . t('A module to add a "Publish" button on the webform submission page.') . '</p>';
+  }
+}
+
+
+// function custom_publish_button_preprocess_block(&$vars) {
+
+//   if($vars['elements']['#id'] == 'webformsubmissionlink'){
+//     dump($vars['#elements']['#content']['#block_content']['#values']['body']);
+//   }
+//   // $vars['page']['page_bottom'] = "asdlkjashkasjfhaskfhkajshfdkjlhskljdfhaksljhfkljahkjlshdkjlfhaksljhdfkljhskljdhafk";
+// }
+
+
+function custom_publish_button_preprocess_block(&$vars) {
+  if ($vars['elements']['#id'] == 'webformsubmissionlink') {
+    $vars['#cache']['max-age'] = 0; 
+    $parameters = \Drupal::routeMatch()->getParameter('webform_submission');
+    if(isset($parameters->sid[0]) && $parameters->sid[0]->value){  
+      // Get the webform submission ID from the appropriate source
+      $webform_submission_id = $parameters->sid[0]->value;// Replace this with the code to retrieve the webform submission ID
+      // Add the "Publish" button HTML to the block content
+      $url = Url::fromRoute('custom_publish_button.publish_submission', ['webform_submission' => $webform_submission_id]);
+      $vars['content']['#markup'] = '<a href="' . $url->toString() . '" class="button_new">' . t('Publish') . '</a>';
+    } 
+  }
+}

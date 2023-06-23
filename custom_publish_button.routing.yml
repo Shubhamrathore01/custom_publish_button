@@ -1,0 +1,6 @@
+custom_publish_button.publish_submission:
+  path: '/webform/{webform_submission}/publish'
+  defaults:
+    _controller: '\Drupal\custom_publish_button\Controller\PublishSubmissionController::publishSubmission'
+  requirements:
+    _permission: 'publish webform submission'
